@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block title %}AI BugFixer Pro — AI-Powered Code Review & Debugging{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">✦ {{ 'AI-Powered Analysis' if ai_enabled else 'Intelligent Static Analysis' }}</span>
+      <h1>Find bugs. <span class="gradient-text">Fix code.</span><br>Ship with confidence.</h1>
+      <p class="lead">
+        AI BugFixer Pro reviews your source code like a senior engineer —
+        catching syntax errors, risky patterns and security issues, explaining
+        exactly what's wrong, and generating a verified fix in seconds.
+      </p>
+      <div class="hero-cta">
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Start analyzing — it's free</a>
+        <a href="#how-it-works" class="btn btn-ghost btn-lg">See how it works</a>
+      </div>
+      <div class="hero-trust">
+        <span>✓ No credit card required</span>
+        <span>✓ 10 languages supported</span>
+        <span>✓ Claude-powered AI review</span>
+      </div>
+    </div>
+
+    <div class="hero-panel">
+      <div class="hero-panel-head">
+        <span></span><span></span><span></span>
+        <small>analyzer.py — AI BugFixer</small>
+      </div>
+      <div class="hero-panel-body">
+        <pre><span class="cm"># before</span>
+<span class="kw">def</span> calculate_total(items)
+    total = 0
+    <span class="kw">for</span> item <span class="kw">in</span> items
+        total += item
+    <span class="kw">return</span> total</pre>
+        <div class="hero-verdict">✅ Fixed 2 missing colons on lines 1 &amp; 3 — verified &amp; re-parsed clean.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="logo-strip">
+  <div class="container">
+    <span>PYTHON</span><span>JAVASCRIPT</span><span>JAVA</span><span>C++</span><span>GO</span><span>TYPESCRIPT</span><span>PHP</span>
+  </div>
+</section>
+
+<section id="features" class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Powerful Features</span>
+      <h2>Everything you need to write better code</h2>
+      <p>A complete debugging toolkit — from instant syntax checks to deep AI-powered review.</p>
+    </div>
+    <div class="features-grid">
+      <div class="card feature-card">
+        <div class="feature-icon">🐞</div>
+        <h4>Bug Detection</h4>
+        <p>Catch syntax errors and structural problems the instant you paste your code.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">🤖</div>
+        <h4>AI Code Review</h4>
+        <p>Claude-powered review reads your code like a senior engineer and explains issues in plain English.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">🛠️</div>
+        <h4>Verified Fixes</h4>
+        <p>Every suggested fix is re-parsed and validated before it's shown to you — no guesswork.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">🔐</div>
+        <h4>Security Checks</h4>
+        <p>Flags risky patterns like <code>eval()</code>, bare excepts and mutable default arguments.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">📊</div>
+        <h4>Analytics Dashboard</h4>
+        <p>Track analyses, bug trends and language breakdown over time with live charts.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon">📄</div>
+        <h4>Downloadable Reports</h4>
+        <p>Export any analysis as a clean, shareable report in one click.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works" class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Simple Workflow</span>
+      <h2>From broken code to fixed code in 3 steps</h2>
+    </div>
+    <div class="steps">
+      <div class="card step">
+        <h4>Paste your code</h4>
+        <p>Choose a language and drop in the source you want reviewed.</p>
+      </div>
+      <div class="card step">
+        <h4>AI analyzes it</h4>
+        <p>Our engine parses, lints, and — when enabled — sends it to Claude for deep review.</p>
+      </div>
+      <div class="card step">
+        <h4>Get a verified fix</h4>
+        <p>Every candidate fix is re-validated so you only ever see code that actually works.</p>
+      </div>
+      <div class="card step">
+        <h4>Track your progress</h4>
+        <p>Every analysis is saved to your dashboard with trends and full history.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="card" style="padding:40px;">
+      <div class="stats-row">
+        <div><div class="stat-num gradient-text">10</div><div class="stat-label">Languages supported</div></div>
+        <div><div class="stat-num gradient-text">100%</div><div class="stat-label">Fixes re-verified</div></div>
+        <div><div class="stat-num gradient-text">&lt;2s</div><div class="stat-label">Typical analysis time</div></div>
+        <div><div class="stat-num gradient-text">0</div><div class="stat-label">Code stored off your account</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Pricing</span>
+      <h2>Start free. Upgrade when you're ready.</h2>
+    </div>
+    <div class="pricing-grid">
+      <div class="card price-card">
+        <h4>Starter</h4>
+        <div class="price">Free</div>
+        <ul>
+          <li>Unlimited Python syntax analysis</li>
+          <li>Static multi-language checks</li>
+          <li>Personal dashboard &amp; history</li>
+          <li>Downloadable reports</li>
+        </ul>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-ghost btn-block">Get started</a>
+      </div>
+      <div class="card price-card featured">
+        <span class="badge badge-info" style="position:absolute;top:20px;right:20px;">MOST POPULAR</span>
+        <h4>Pro</h4>
+        <div class="price">$12 <small>/ month</small></div>
+        <ul>
+          <li>Everything in Starter</li>
+          <li>Full AI-powered review (all languages)</li>
+          <li>Security &amp; complexity insights</li>
+          <li>Priority analysis queue</li>
+        </ul>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-block">Start free trial</a>
+      </div>
+      <div class="card price-card">
+        <h4>Team</h4>
+        <div class="price">$39 <small>/ month</small></div>
+        <ul>
+          <li>Everything in Pro</li>
+          <li>Shared team dashboard</li>
+          <li>CI/CD integration</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-ghost btn-block">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="cta-banner">
+      <h2>Ready to debug smarter?</h2>
+      <p>Join developers who ship cleaner code with AI BugFixer Pro.</p>
+      <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Create your free account</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

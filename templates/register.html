@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Create account — AI BugFixer Pro{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">{% endblock %}
+
+{% block content %}
+<div class="auth-shell">
+  <div class="auth-visual">
+    <div>
+      <div class="brand"><span class="brand-mark">🤖</span> AI BugFixer Pro</div>
+    </div>
+    <div>
+      <h2>Join developers writing cleaner code.</h2>
+      <p>Free to start. No credit card required. Full AI-powered review available on Pro.</p>
+    </div>
+    <div class="auth-quote">
+      "Went from a cryptic traceback to a one-line, verified fix in under 3 seconds."
+    </div>
+  </div>
+
+  <div class="auth-main">
+    <div class="auth-box">
+      <div class="brand"><span class="brand-mark">🤖</span> AI BugFixer Pro</div>
+      <h1>Create your account</h1>
+      <p style="color:var(--color-text-muted);">Start finding and fixing bugs in minutes.</p>
+
+      <form method="POST" action="{{ url_for('auth.register') }}">
+        <div class="form-group">
+          <label class="form-label">Full name</label>
+          <input class="form-control" type="text" name="name" required autofocus placeholder="Jane Doe">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input class="form-control" type="email" name="email" required placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-control" type="password" name="password" id="pw" data-pw-strength required minlength="8" placeholder="At least 8 characters">
+          <div style="font-size:12.5px;margin-top:6px;" data-pw-meter></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirm password</label>
+          <input class="form-control" type="password" name="confirm_password" required minlength="8" placeholder="Re-enter your password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Create account</button>
+      </form>
+
+      <div class="auth-footer-link">Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

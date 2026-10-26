@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AI BugFixer Pro{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">{% endblock %}
+
+{% block content %}
+<div class="dash-shell">
+
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">🤖</span> AI BugFixer</div>
+    <ul class="sidebar-links">
+      <li><a href="#analyzer-panel" class="active">🔍 Analyzer</a></li>
+      <li><a href="#overview">📊 Overview</a></li>
+      <li><a href="#history">🕘 History</a></li>
+      <li><a href="{{ url_for('main.home') }}">🏠 Home</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="avatar">{{ user['name'][0]|upper }}</div>
+        <div>
+          <div style="color:var(--color-text);font-weight:600;">{{ user['name'] }}</div>
+          <div style="font-size:12px;">{{ user['email'] }}</div>
+        </div>
+      </div>
+      <a href="{{ url_for('auth.logout') }}" class="btn btn-ghost btn-block">Log out</a>
+    </div>
+  </aside>
+
+  <main class="dash-main">
+    <div class="dash-header">
+      <div>
+        <h1>Welcome back, {{ user['name'].split(' ')[0] }} 👋</h1>
+        <p>Here's what's happening with your code.</p>
+      </div>
+      {% if ai_enabled %}
+        <span class="ai-status on"><span class="dot"></span> AI review active (Claude)</span>
+      {% else %}
+        <span class="ai-status off"><span class="dot"></span> Static analysis mode — add an API key for full AI review</span>
+      {% endif %}
+    </div>
+
+    <div id="overview" class="stat-cards">
+      <div class="card stat-card">
+        <div class="label">Total Analyses</div>
+        <div class="value">{{ stats.total_analyses }}</div>
+      </div>
+      <div class="card stat-card">
+        <div class="label">Bugs Detected</div>
+        <div class="value">{{ stats.bugs_detected }}</div>
+      </div>
+      <div class="card stat-card">
+        <div class="label">Fixes Suggested</div>
+        <div class="value">{{ stats.fixes_suggested }}</div>
+      </div>
+      <div class="card stat-card">
+        <div class="label">Clean Code Rate</div>
+        <div class="value">{{ stats.success_rate }}%</div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="card panel">
+        <div class="panel-head"><h3>Activity trend (last 14 days)</h3></div>
+        <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+      </div>
+      <div class="card panel">
+        <div class="panel-head"><h3>By language</h3></div>
+        <div class="chart-wrap">
+          {% if stats.by_language %}
+            <canvas id="languageChart"></canvas>
+          {% else %}
+            <div class="empty-state">Run your first analysis to see a breakdown.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div id="analyzer-panel" class="card panel mb-3">
+      <div class="panel-head">
+        <h3>🔍 AI Code Analyzer</h3>
+        {% if ai_enabled %}<span class="badge badge-info">🤖 AI-powered</span>{% else %}<span class="badge badge-info">⚙️ Static engine</span>{% endif %}
+      </div>
+
+      <form id="analyzer-form">
+        <div class="analyzer-toolbar">
+          <div class="form-group" style="margin-bottom:0;flex:1;">
+            <label class="form-label">Language</label>
+            <select id="language-select" class="form-control">
+              {% for lang in ['Python','JavaScript','TypeScript','Java','C','C++','C#','Go','PHP','Ruby'] %}
+              <option value="{{ lang }}">{{ lang }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Your source code</label>
+          <textarea id="code-input" class="form-control code-editor-field" placeholder="Paste your code here...">def calculate_total(items)
+    total = 0
+    for item in items:
+        total += item
+    return total</textarea>
+        </div>
+
+        <button type="submit" id="analyze-btn" class="btn btn-primary btn-lg">🔍 Analyze Code</button>
+      </form>
+
+      <div id="analyzer-result" class="analyzer-result hidden"></div>
+    </div>
+
+    <div id="history" class="card panel">
+      <div class="panel-head"><h3>Recent analyses</h3></div>
+      {% if history %}
+      <div style="overflow-x:auto;">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Date</th><th>Language</th><th>Result</th><th>Severity</th><th>Source</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in history %}
+            <tr>
+              <td class="mono">{{ row['created_at'] }}</td>
+              <td>{{ row['language'] }}</td>
+              <td>{{ 'Issue found' if row['has_error'] else 'Clean' }}</td>
+              <td><span class="badge badge-{{ row['severity'] }}">{{ row['severity']|upper }}</span></td>
+              <td>{{ 'AI' if row['source'] == 'ai' else 'Static' }}</td>
+              <td><a class="btn btn-ghost" style="padding:6px 12px;font-size:12.5px;" href="{{ url_for('api.report', analysis_id=row['id']) }}">Report</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+        <div class="empty-state">No analyses yet — run your first one above.</div>
+      {% endif %}
+    </div>
+
+  </main>
+</div>
+
+<script id="chart-data" type="application/json">{{ {"by_day": stats.by_day, "by_language": stats.by_language} | tojson }}</script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard-charts.js') }}"></script>
+<script src="{{ url_for('static', filename='js/analyzer.js') }}"></script>
+{% endblock %}
